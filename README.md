@@ -82,4 +82,23 @@ the limit and step values from the command line arguments.
 
 ## Reading Command Line Arguments
 
-Todo ...
+The equivalent to C's `argv` and `argc` variables used to read arguments in
+Rust is `env::args`. I was interested in implementing some basic option flags,
+as well as learning more about the crates ecosystem, so rather than building
+my own bird-feeder, I elected to use the `getopts` crate.
+
+The `getopts` crate can be found here: https://crates.io/crates/getopts
+
+Adding this dependency is not difficult at all! First, the following lines
+are added to the `Cargo.toml` file:
+
+```
+[dependencies]
+getopts = "0.2"
+```
+
+Then the following line is then added to the `main.rs` file.
+
+```rust
+extern crate getopts;
+```
