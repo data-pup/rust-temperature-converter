@@ -1,4 +1,5 @@
 fn main() {
+    // Declare two variables to store the current F/C temperatures.
     let mut fahr: i32;
     let mut celsius: i32;
 
@@ -6,8 +7,8 @@ fn main() {
     let upper: i32 = 300;  // Upper temperature limit.
     let step: i32 = 20;    // Step size.
 
+    println!("F\tC");      // Print a table header, and begin the loop.
     fahr = lower;
-    println!("F\tC");
     while fahr <= upper {
         celsius = 5 * (fahr - 32) / 9;
         println!("{f}\t{c}", f=fahr, c=celsius);
