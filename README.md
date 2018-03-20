@@ -39,3 +39,47 @@ fn main() {
     }
 }
 ```
+
+This is not a very idiomatic implementation however, and largely mimics the
+original C code. About the only thing here that is distinctly Rust is the
+declaration statements of `fahr` and `celcius`, which include the `mut` keyword.
+Unless explicitly marked otherwise, variables are immutable.
+
+The code can be rewritten like so:
+
+```rust
+#![feature(iterator_step_by)]
+fn main() {
+    let (lower, upper) = (0, 300);  // Declare the upper/lower limits.
+    let step: usize = 20;           // Step size.
+    println!("F\tC");               // Print a header and begin the loop.
+    for fahr in (lower..upper + step as i32).step_by(step) {
+        let celsius = 5 * (fahr - 32) / 9;
+        println!("{f}\t{c}", f=fahr, c=celsius);
+    }
+}
+```
+
+Here the `upper` and `lower` limit variables are initialized in a single line.
+Rust offers destructuring, which means we can assign the two variables at once.
+
+Rust's `Range` type can also be used, so that we can use a `for` loop instead
+of the previous implementation's `while` loop. `(a..b)` specifies a range
+including the values `a, a+1, ..., b-1`. We can specify a step size by using
+the `step_by(..)` method, which expects a `usize` variable.
+
+Because the end of the range is not inclusive, we must add the step size to the
+upper limit when declaring the range. This requires casting the `usize` value
+into an `i32` using the `as` keyword.
+
+One other thing worth noting is that this is using a feature only available
+currently in the nightly build. This feature is enabled by the first line
+of the program.
+
+After making all of these changes, we have a concise implementation that also
+involves no mutably declared variables. Neat! Next, let's see if we can read
+the limit and step values from the command line arguments.
+
+## Reading Command Line Arguments
+
+Todo ...
