@@ -102,3 +102,52 @@ Then the following line is then added to the `main.rs` file.
 ```rust
 extern crate getopts;
 ```
+
+After substantial refactoring, I was able to create a program that would
+parse the command line options into a configuration struct that stored the
+table settings, or print help information if the `-h` flag was included.
+
+```sh
+$: ./rust-temp-converter -h
+Usage: ./rust-temp-converter
+
+Options:
+    -h, --help          Print this help information
+    -l, --lower TEMP    Lower temperature limit (Default: 0)
+    -u, --upper TEMP    Upper temperature limit (Default: 300)
+    -s, --step STEP     Temperature step size
+```
+
+One of the other alterations I enjoyed making here was in the for loop used
+to print the table. Higher order functions allow us to program functionally
+in Rust!
+
+```rust
+println!("F\tC");
+for curr_row in
+    (lower..upper + step as i32)
+    .step_by(step)
+    .map(|fahr| (fahr, 5 * (fahr - 32) / 9)) {
+        let (fahr, celcius) = curr_row;
+        println!("{f}\t{c}", f=fahr, c=celcius);
+    }
+```
+
+Here is an example of what the program printed after rebuilding it to accept
+command line arguments.
+
+```sh
+$: ./rust-temp-converter -l 20 -u 40 -s 2
+F       C
+20      -6
+22      -5
+24      -4
+26      -3
+28      -2
+30      -1
+32      0
+34      1
+36      2
+38      3
+40      4
+```
